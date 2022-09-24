@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class SpawnWall : MonoBehaviour
+public class Environment : MonoBehaviour
 {
     public GameObject wallPrefab;
-    GameObject wall;
     public GameObject wallParent;
+    GameObject wall;
+    public GameObject ground;
+    public GameObject background;
+    float groundOffset;
     public float interval;
     public float speed;
     float spawnTime;
@@ -27,5 +30,11 @@ public class SpawnWall : MonoBehaviour
             wall.GetComponent<Wall>().speed = speed;
             spawnTime = Time.time;
         }
+
+        // Move ground and background texture
+        groundOffset += speed * Time.deltaTime;
+        float offset = (100 * groundOffset) / ground.GetComponent<Renderer>().material.GetTexture("_MainTex").width;
+        ground.GetComponent<Renderer>().material.mainTextureOffset = new Vector2(offset, 0);
+        background.GetComponent<Renderer>().material.mainTextureOffset = new Vector2(offset * speed / 2, 0);
     }
 }

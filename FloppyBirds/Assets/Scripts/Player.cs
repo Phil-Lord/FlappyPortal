@@ -20,21 +20,9 @@ public class Player : MonoBehaviour
         if (isAlive && Input.GetKeyDown(KeyCode.Space))
         {
             playerRigidBody.velocity = Vector2.up * 6.5f;
-            playerRigidBody.angularVelocity += 50;
         }
 
-        if (playerRigidBody.velocity.y < 0)
-        {
-            playerRigidBody.angularVelocity -= 0.7f;
-        }
-
-        if (gameObject.transform.eulerAngles.z >= 45 && gameObject.transform.eulerAngles.z <= 315)
-        {
-            float angVel = playerRigidBody.angularVelocity;
-            playerRigidBody.angularVelocity = 0;
-            playerRigidBody.angularVelocity = -(angVel * 0.5f);
-            //gameObject.transform.eulerAngles.Set(gameObject.transform.eulerAngles.z < 180 ? 45 : 315, 0, 0);
-        }
+        transform.eulerAngles = new Vector3(0, 0, playerRigidBody.velocity.y * 0.75f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -49,7 +37,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Kill player on collision with a wall
+        // Kill player on collision with a wall or the ground
         isAlive = false;
         txtScore.GetComponent<Text>().text = "0";
         
