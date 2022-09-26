@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
-    public float speed;
+    // Game controller object for speed;
+    public GameObject game;
+
     void Start()
     {
         // Spawn on the right side of the screen with random y
@@ -14,7 +16,7 @@ public class Wall : MonoBehaviour
         // Move wall left, then destroy if off the screen
         if (gameObject.transform.position.x > -10)
         {
-            gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.left * speed;
+            gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.left * game.GetComponent<Game>().speed;
         }
         else
         {

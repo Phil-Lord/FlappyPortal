@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public int highScore = 0;
     public GameObject txtScore;
     Rigidbody2D playerRigidBody;
+    public GameObject AudioController;
 
     void Start()
     {
@@ -19,6 +20,7 @@ public class Player : MonoBehaviour
         // Jump when space is pressed
         if (isAlive && Input.GetKeyDown(KeyCode.Space))
         {
+            AudioController.GetComponent<Sounds>().PlayBounce();
             playerRigidBody.velocity = Vector2.up * 6.5f;
         }
 
@@ -30,6 +32,7 @@ public class Player : MonoBehaviour
         // Increment points after passing wall
         if (isAlive)
         {
+            AudioController.GetComponent<Sounds>().PlayPoint();
             score++;
             txtScore.GetComponent<Text>().text = score.ToString();
         }
@@ -38,6 +41,11 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Kill player on collision with a wall or the ground
+        if (isAlive)
+        {
+            AudioController.GetComponent<Sounds>().PlayDeath();
+        }
+
         isAlive = false;
         txtScore.GetComponent<Text>().text = "0";
         
